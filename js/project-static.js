@@ -12,7 +12,8 @@
     document.title = `${project.title} — Onlynoer's Portfolio`;
     qs('#project-title').textContent = project.title;
     qs('#project-blurb').textContent = project.blurb || '';
-    qs('#project-desc').textContent = project.description || '';
+    // Allow description to include simple HTML (e.g. anchor tags) so links can be clickable.
+    qs('#project-desc').innerHTML = project.description || '';
 
     const dots = qs('#inline-dots');
     dots.innerHTML = '';
