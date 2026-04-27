@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1 class="site-title">My Portfolio</h1>
+      <p class="site-sub">Click a project to view images and details</p>
+    </header>
+
+    <main class="container">
+      <section id="projects" class="projects" aria-live="polite"></section>
+      <aside id="project-detail" class="project-detail hidden" aria-hidden="true"></aside>
+    </main>
+
+    <!-- Image viewer modal -->
+    <div id="viewer" class="viewer hidden" role="dialog" aria-modal="true">
+      <button id="viewer-close" class="viewer-close" aria-label="Close viewer">✕</button>
+      <button id="viewer-prev" class="viewer-nav viewer-prev" aria-label="Previous">◀</button>
+      <img id="viewer-img" class="viewer-img" alt="Project image" />
+      <button id="viewer-next" class="viewer-nav viewer-next" aria-label="Next">▶</button>
+    </div>
+
+    <script src="js/app.js" defer></script>
+  </body>
+</html>

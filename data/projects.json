@@ -1,0 +1,35 @@
+[
+  {
+    "id": "p1",
+    "title": "Aurora Gallery",
+    "blurb": "A small image exploration app.",
+    "description": "Aurora Gallery is a demo project showcasing an image-first layout with modal viewing and thumbnails.",
+    "images": [
+      "https://picsum.photos/seed/aurora1/1200/800",
+      "https://picsum.photos/seed/aurora2/1200/800",
+      "https://picsum.photos/seed/aurora3/1200/800"
+    ]
+  },
+  {
+    "id": "p2",
+    "title": "Neon Dashboard",
+    "blurb": "A stylized admin UI concept.",
+    "description": "Neon Dashboard experiments with contrasty UI components, cards, and data visualizations.",
+    "images": [
+      "https://picsum.photos/seed/neon1/1200/800",
+      "https://picsum.photos/seed/neon2/1200/800",
+      "https://picsum.photos/seed/neon3/1200/800"
+    ]
+  },
+  {
+    "id": "p3",
+    "title": "Origami Identity",
+    "blurb": "Branding and identity explorations.",
+    "description": "Origami Identity includes logo sketches, color studies, and mockups for a fictional brand.",
+    "images": [
+      "https://picsum.photos/seed/origami1/1200/800",
+      "https://picsum.photos/seed/origami2/1200/800",
+      "https://picsum.photos/seed/origami3/1200/800"
+    ]
+  }
+]

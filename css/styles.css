@@ -1,0 +1,26 @@
+:root{--bg:#0f1724;--card:#0b1220;--accent:#7c3aed;--muted:#9aa3b2;--glass:rgba(255,255,255,0.03)}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#e6eef6;background:linear-gradient(180deg,#071021 0%,#0b1220 100%);-webkit-font-smoothing:antialiased}
+.site-header{padding:2rem 1rem;text-align:center}
+.site-title{margin:0;font-size:clamp(1.5rem,3vw,2.25rem);letter-spacing:-0.02em}
+.site-sub{margin:0;color:var(--muted)}
+.container{max-width:1100px;margin:2rem auto;padding:0 1rem}
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.card{background:var(--glass);border:1px solid rgba(255,255,255,0.03);padding:1rem;border-radius:10px;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+.card:hover{transform:translateY(-6px);box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+.thumb{width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:.6rem}
+.card h3{margin:.2rem 0 .4rem 0}
+.card p{margin:0;color:var(--muted);font-size:.95rem}
+.project-detail{position:fixed;right:1rem;top:1.2rem;bottom:1.2rem;width:420px;padding:1rem;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:10px;box-shadow:0 8px 40px rgba(2,6,23,0.6);overflow:auto}
+.hidden{display:none}
+.thumbnails{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+.thumb-sm{width:80px;height:60px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent}
+.thumb-sm:focus,.thumb-sm:hover{outline:none;border-color:var(--accent)}
+.viewer{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(rgba(3,7,18,0.6),rgba(2,6,23,0.8));z-index:60}
+.viewer-img{max-width:90%;max-height:80%;border-radius:8px;box-shadow:0 12px 40px rgba(2,6,23,0.7)}
+.viewer-close{position:fixed;right:1rem;top:1rem;background:transparent;border:0;color:#fff;font-size:1.4rem;cursor:pointer}
+.viewer-nav{position:fixed;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.35);border:0;color:#fff;padding:.5rem 1rem;border-radius:6px;cursor:pointer}
+.viewer-prev{left:1rem}
+.viewer-next{right:1rem}
+@media(max-width:900px){.project-detail{position:static;width:auto;margin-top:1rem;border-radius:8px}}
