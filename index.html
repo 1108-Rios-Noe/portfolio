@@ -8,8 +8,24 @@
   </head>
   <body>
     <header class="site-header">
-      <h1 class="site-title">My Portfolio</h1>
-      <p class="site-sub">Click a project to view images and details</p>
+      <div class="header-inner">
+        <div>
+          <h1 class="site-title">Onlynoer's Portfolio</h1>
+          <p class="site-sub">Click a project to learn more about it!</p>
+        </div>
+        <div class="controls" aria-hidden="false">
+          <label for="theme-select" class="visually-hidden">Theme</label>
+          <select id="theme-select" title="Choose theme">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="neon">Neon</option>
+            <option value="earth">Earth</option>
+          </select>
+
+          <label for="layout-toggle" class="visually-hidden">Layout</label>
+          <button id="layout-toggle" title="Toggle layout">Grid</button>
+        </div>
+      </div>
     </header>
 
     <main class="container">
