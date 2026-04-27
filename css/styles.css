@@ -318,10 +318,21 @@ body {
 }
 
 /* Inline project viewer styles */
+.project-page {
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem
+}
+
 .project-top {
     display: flex;
     gap: 1.25rem;
-    align-items: flex-start
+    align-items: center;
+    justify-content: center;
+    width: 100%
 }
 
 .viewer-inline {
@@ -329,12 +340,14 @@ body {
     display: flex;
     align-items: center;
     gap: .75rem;
-    position: relative
+    position: relative;
+    justify-content: center;
+    width: 100%
 }
 
 .viewer-inline-frame {
     position: relative;
-    width: 100%;
+    width: min(100%, 860px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -401,17 +414,21 @@ body {
 }
 
 .project-meta {
-    width: 360px
+    width: min(100%, 680px);
+    text-align: center
 }
 
 .project-meta h2 {
     margin-top: 0
 }
 
+.project-meta p {
+    margin-left: auto;
+    margin-right: auto
+}
+
 .thumbs-row {
-    display: flex;
-    gap: .5rem;
-    margin-top: .8rem
+    display: none
 }
 
 .thumbs-row .thumb-sm {
@@ -420,20 +437,27 @@ body {
 }
 
 @media(max-width:900px) {
+    .project-page {
+        max-width: 100%
+    }
+
     .project-top {
         flex-direction: column
     }
 
+    .viewer-inline {
+        width: 100%
+    }
+
     .project-meta {
-        width: auto
+        width: 100%
+    }
+
+    .project-top {
+        gap: 1rem
     }
 
     .inline-img {
         height: 260px
-    }
-
-    .thumbs-row .thumb-sm {
-        width: 80px;
-        height: 55px
     }
 }

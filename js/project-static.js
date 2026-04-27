@@ -14,17 +14,6 @@
     qs('#project-blurb').textContent = project.blurb || '';
     qs('#project-desc').textContent = project.description || '';
 
-    const thumbs = qs('#thumbs-row');
-    project.images.forEach((src, i)=>{
-      const t = document.createElement('img');
-      t.className = 'thumb-sm';
-      t.src = src;
-      t.alt = `${project.title} image ${i+1}`;
-      t.dataset.idx = i;
-      t.addEventListener('click', ()=> show(i));
-      thumbs.appendChild(t);
-    });
-
     const dots = qs('#inline-dots');
     dots.innerHTML = '';
     project.images.forEach((_, i)=>{
