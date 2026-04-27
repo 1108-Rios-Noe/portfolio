@@ -5,8 +5,8 @@
     "blurb": "A web-based 2d multiplayer platformer.",
     "description": "Leap Clash is a 2D multiplayer platformer game built with Phaser3 for the frontend and Socket.IO, Node.js, and Express for the backend. The game features real-time multiplayer gameplay where players compete against each other and try to outlast their opponent while trying not to fall into the void. The game features multiple different kind of platforms that each have a twist. ",
     "images": [
-      "/data/assets/leap_clash_thumbnail.png",
-      "/data/assets/leap_clash_play.png"
+      "data/assets/leap_clash_thumbnail.png",
+      "data/assets/leap_clash_play.png"
     ]
   }
   
