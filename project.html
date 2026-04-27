@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Project — Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <div>
+          <h1 class="site-title">Project</h1>
+          <p class="site-sub"><a href="index.html">← Back to projects</a></p>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <article id="project" class="project-page">
+        <!-- filled by JS -->
+      </article>
+    </main>
+
+    <!-- Image viewer modal (reused) -->
+    <div id="viewer" class="viewer hidden" role="dialog" aria-modal="true">
+      <button id="viewer-close" class="viewer-close" aria-label="Close viewer">✕</button>
+      <button id="viewer-prev" class="viewer-nav viewer-prev" aria-label="Previous">◀</button>
+      <img id="viewer-img" class="viewer-img" alt="Project image" />
+      <div id="viewer-msg" class="viewer-msg hidden" role="status">Could not load image.</div>
+      <button id="viewer-next" class="viewer-nav viewer-next" aria-label="Next">▶</button>
+    </div>
+
+    <script src="js/project.js" defer></script>
+  </body>
+</html>

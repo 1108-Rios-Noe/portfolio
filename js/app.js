@@ -4,9 +4,18 @@ let currentProject = null;
 let currentImageIndex = 0;
 
 async function load() {
-  const res = await fetch('data/projects.json');
-  projects = await res.json();
-  renderList();
+  const container = $('#projects');
+  projects = [];
+  try {
+    const res = await fetch('data/projects.json');
+    if (!res.ok) {
+      throw new Error(`Failed to load projects (${res.status})`);
+    }
+    projects = await res.json();
+    renderList();
+  } catch (err) {
+    container.innerHTML = '<p role="alert">Unable to load projects right now. Please try again later.</p>';
+  }
 }
 
 function renderList(){
@@ -16,13 +25,20 @@ function renderList(){
     const card = document.createElement('article');
     card.className='card';
     card.tabIndex=0;
+    card.setAttribute('role', 'button');
     card.innerHTML = `
       <img class="thumb" src="${p.images[0]}" alt="${p.title} thumbnail"/>
       <h3>${p.title}</h3>
       <p>${p.blurb}</p>
+      <div style="margin-top:.6rem"><a class="card-link" href="project.html?id=${p.id}">View page →</a></div>
     `;
-    card.addEventListener('click',()=> openProject(p.id));
-    card.addEventListener('keypress',(e)=>{ if(e.key === 'Enter') openProject(p.id)});
+    card.addEventListener('click',()=> { window.location.href = `project.html?id=${p.id}`; });
+    card.addEventListener('keydown',(e)=>{
+      if(e.key === 'Enter' || e.key === ' ') {
+        if(e.key === ' ') e.preventDefault();
+        window.location.href = `project.html?id=${p.id}`;
+      }
+    });
     container.appendChild(card);
   })
 }
@@ -41,36 +57,102 @@ function openProject(id){
     </div>
   `;
   aside.querySelectorAll('.thumb-sm').forEach(img=>{
-    img.addEventListener('click', (e)=> openViewer(parseInt(e.currentTarget.dataset.idx)));
+    img.addEventListener('click', (e)=> openViewer(parseInt(e.currentTarget.dataset.idx, 10)));
   })
+  aside.innerHTML = '';
+  const title = document.createElement('h2');
+  title.textContent = p.title;
+  const description = document.createElement('p');
+  description.textContent = p.description;
+  const thumbnails = document.createElement('div');
+  thumbnails.className = 'thumbnails';
+  p.images.forEach((img, idx) => {
+    const thumb = document.createElement('img');
+    thumb.className = 'thumb-sm';
+    thumb.src = img;
+    thumb.setAttribute('data-idx', String(idx));
+    thumb.alt = `${p.title} image ${idx+1}`;
+    thumb.addEventListener('click', () => openViewer(idx));
+    thumbnails.appendChild(thumb);
+  });
+  aside.appendChild(title);
+  aside.appendChild(description);
+  aside.appendChild(thumbnails);
 }
 
 // Viewer controls
 function openViewer(idx){
   currentImageIndex = idx;
-  $('#viewer-img').src = currentProject.images[currentImageIndex];
+  const img = $('#viewer-img');
+  const msg = document.getElementById('viewer-msg');
+  img.classList.remove('broken');
+  if (!currentProject || !currentProject.images) return;
+  // show loading status
+  msg.textContent = 'Loading image…';
+  msg.classList.remove('hidden');
+  img.classList.remove('broken');
+  img.removeAttribute('src');
+  img.onload = () => {
+    msg.classList.add('hidden');
+    img.classList.remove('broken');
+    img.style.visibility = 'visible';
+  };
+  img.onerror = () => {
+    img.classList.add('broken');
+    img.removeAttribute('src');
+    img.style.visibility = 'hidden';
+    msg.textContent = 'Could not load image.';
+    msg.classList.remove('hidden');
+  };
+  // set src last to trigger load
+  img.style.visibility = 'hidden';
+  img.src = currentProject.images[currentImageIndex];
   $('#viewer').classList.remove('hidden');
 }
 
 function closeViewer(){
   $('#viewer').classList.add('hidden');
+  const img = $('#viewer-img');
+  img.removeAttribute('src');
+  document.getElementById('viewer-msg').classList.add('hidden');
+  currentImageIndex = 0;
 }
 
 function prevImage(){
+  if (!currentProject || !currentProject.images || currentProject.images.length === 0) {
+    console.warn('prevImage: no project loaded');
+    return;
+  }
   currentImageIndex = (currentImageIndex -1 + currentProject.images.length) % currentProject.images.length;
-  $('#viewer-img').src = currentProject.images[currentImageIndex];
+  const img = $('#viewer-img');
+  img.classList.remove('broken');
+  img.onload = () => img.classList.remove('broken');
+  img.onerror = () => { img.classList.add('broken'); img.removeAttribute('src'); document.getElementById('viewer-msg').classList.remove('hidden'); };
+  img.src = currentProject.images[currentImageIndex];
 }
 
 function nextImage(){
+  if (!currentProject || !currentProject.images || currentProject.images.length === 0) {
+    console.warn('nextImage: no project loaded');
+    return;
+  }
   currentImageIndex = (currentImageIndex +1) % currentProject.images.length;
-  $('#viewer-img').src = currentProject.images[currentImageIndex];
+  const img = $('#viewer-img');
+  img.classList.remove('broken');
+  img.onload = () => img.classList.remove('broken');
+  img.onerror = () => { img.classList.add('broken'); img.removeAttribute('src'); document.getElementById('viewer-msg').classList.remove('hidden'); };
+  img.src = currentProject.images[currentImageIndex];
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
   load();
-  $('#viewer-close').addEventListener('click', closeViewer);
-  $('#viewer-prev').addEventListener('click', prevImage);
-  $('#viewer-next').addEventListener('click', nextImage);
+  $('#viewer-close').addEventListener('click', (e) => { e.stopPropagation(); closeViewer(); });
+  $('#viewer-prev').addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
+  $('#viewer-next').addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+  // click outside image closes viewer
+  document.getElementById('viewer').addEventListener('click', (e) => {
+    if (e.target && e.target.id === 'viewer') closeViewer();
+  });
   document.addEventListener('keydown',(e)=>{
     if($('#viewer').classList.contains('hidden')) return;
     if(e.key==='ArrowLeft') prevImage();
