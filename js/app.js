@@ -26,17 +26,19 @@ function renderList(){
     card.className='card';
     card.tabIndex=0;
     card.setAttribute('role', 'button');
+    const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    const slug = slugify(p.title || p.id);
     card.innerHTML = `
       <img class="thumb" src="${p.images[0]}" alt="${p.title} thumbnail"/>
       <h3>${p.title}</h3>
       <p>${p.blurb}</p>
-      <div style="margin-top:.6rem"><a class="card-link" href="project.html?id=${p.id}">View page →</a></div>
+      <div style="margin-top:.6rem"><a class="card-link" href="projects/${slug}/">View page →</a></div>
     `;
-    card.addEventListener('click',()=> { window.location.href = `project.html?id=${p.id}`; });
+    card.addEventListener('click',()=> { window.location.href = `projects/${slug}/`; });
     card.addEventListener('keydown',(e)=>{
       if(e.key === 'Enter' || e.key === ' ') {
         if(e.key === ' ') e.preventDefault();
-        window.location.href = `project.html?id=${p.id}`;
+        window.location.href = `projects/${slug}/`;
       }
     });
     container.appendChild(card);

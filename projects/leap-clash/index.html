@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Leap Clash — Onlynoer's Portfolio</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <div>
+          <h1 class="site-title">Leap Clash</h1>
+          <p class="site-sub"><a href="/index.html">← Back to projects</a></p>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="project-page">
+        <div class="project-top">
+          <div class="viewer-inline">
+            <button id="inline-prev" class="viewer-inline-prev" aria-label="Previous image">◀</button>
+            <div class="viewer-inline-frame">
+              <img id="inline-img" class="inline-img" alt="Leap Clash image 1" />
+              <div id="inline-dots" class="inline-dots"></div>
+              <div id="inline-counter" class="inline-counter"></div>
+            </div>
+            <button id="inline-next" class="viewer-inline-next" aria-label="Next image">▶</button>
+          </div>
+        </div>
+
+        <div class="project-meta">
+          <h2 id="project-title">Leap Clash</h2>
+          <p id="project-blurb" class="project-blurb">A web-based 2D multiplayer platformer.</p>
+          <p id="project-desc" class="project-desc">Leap Clash is a 2D multiplayer platformer game built with Phaser 3 for the frontend and Socket.IO, Node.js, and Express for the backend. Players compete in real time, try to outlast each other, and avoid falling into the void while navigating platforms with unique twists.</p>
+        </div>
+
+        <div id="thumbs-row" class="thumbs-row"></div>
+      </section>
+    </main>
+
+    <script>
+      window.PROJECT_DATA = {
+        title: 'Leap Clash',
+        blurb: 'A web-based 2D multiplayer platformer.',
+        description: 'Leap Clash is a 2D multiplayer platformer game built with Phaser 3 for the frontend and Socket.IO, Node.js, and Express for the backend. Players compete in real time, try to outlast each other, and avoid falling into the void while navigating platforms with unique twists.',
+        images: [
+          '/data/assets/leap_clash_thumbnail.png',
+          '/data/assets/leap_clash_play.png'
+        ]
+      };
+    </script>
+    <script src="/js/project-static.js" defer></script>
+  </body>
+</html>

@@ -30,45 +30,102 @@ async function loadProject(){
 
 function renderProject(){
   projectContainer.innerHTML = '';
-  const title = document.createElement('h2');
-  title.textContent = project.title;
-  const desc = document.createElement('p');
-  desc.textContent = project.description;
-  const blurb = document.createElement('p');
-  blurb.textContent = project.blurb || '';
-  const thumbs = document.createElement('div');
-  thumbs.className = 'thumbnails';
+  // Set page title
+  document.title = `${project.title} — Onlynoer's Portfolio`;
+
+  // Build inline viewer + meta
+  const top = document.createElement('div');
+  top.className = 'project-top';
+
+  const viewer = document.createElement('div');
+  viewer.className = 'viewer-inline';
+  viewer.innerHTML = `
+    <button class="viewer-inline-prev" aria-label="Previous image">◀</button>
+    <div class="viewer-inline-frame">
+      <img id="inline-img" class="inline-img" alt="${project.title} image 1">
+      <div id="inline-dots" class="inline-dots" aria-hidden="false"></div>
+      <div id="inline-counter" class="inline-counter"></div>
+    </div>
+    <button class="viewer-inline-next" aria-label="Next image">▶</button>
+  `;
+
+  const meta = document.createElement('div');
+  meta.className = 'project-meta';
+  meta.innerHTML = `
+    <h2 id="project-title">${project.title}</h2>
+    <p class="project-blurb">${project.blurb || ''}</p>
+    <p class="project-desc">${project.description || ''}</p>
+  `;
+
+  top.appendChild(viewer);
+  top.appendChild(meta);
+
+  // Thumbnails row
+  const thumbsRow = document.createElement('div');
+  thumbsRow.className = 'thumbs-row';
   project.images.forEach((img, idx)=>{
     const t = document.createElement('img');
     t.className = 'thumb-sm';
     t.src = img;
     t.alt = `${project.title} image ${idx+1}`;
     t.setAttribute('data-idx', String(idx));
-    t.addEventListener('click', () => openViewer(idx));
-    thumbs.appendChild(t);
+    t.addEventListener('click', () => showInlineImage(idx));
+    thumbsRow.appendChild(t);
   });
-  projectContainer.appendChild(title);
-  projectContainer.appendChild(desc);
-  projectContainer.appendChild(blurb);
-  projectContainer.appendChild(thumbs);
+
+  projectContainer.appendChild(top);
+  projectContainer.appendChild(thumbsRow);
+
+  // Wire inline viewer controls
+  document.querySelector('.viewer-inline-prev').addEventListener('click', prevInline);
+  document.querySelector('.viewer-inline-next').addEventListener('click', nextInline);
+
+  // populate dots and show first image
+  buildDots();
+  showInlineImage(0);
 }
 
 function $(sel){ return document.querySelector(sel); }
 
-function openViewer(idx){
-  currentImageIndex = idx;
-  const img = $('#viewer-img');
-  const msg = document.getElementById('viewer-msg');
+function buildDots(){
+  const dots = document.getElementById('inline-dots');
+  dots.innerHTML = '';
+  project.images.forEach((_, i)=>{
+    const b = document.createElement('button');
+    b.className = 'dot';
+    b.setAttribute('aria-label', `Image ${i+1}`);
+    b.addEventListener('click', ()=> showInlineImage(i));
+    dots.appendChild(b);
+  });
+}
+
+function showInlineImage(idx){
   if(!project || !project.images) return;
-  msg.textContent = 'Loading image…';
-  msg.classList.remove('hidden');
+  currentImageIndex = idx;
+  const img = document.getElementById('inline-img');
+  const counter = document.getElementById('inline-counter');
+  const dots = document.getElementById('inline-dots');
   img.classList.remove('broken');
-  img.removeAttribute('src');
-  img.onload = () => { msg.classList.add('hidden'); img.classList.remove('broken'); img.style.visibility = 'visible'; };
-  img.onerror = () => { img.classList.add('broken'); img.removeAttribute('src'); img.style.visibility = 'hidden'; msg.textContent = 'Could not load image.'; msg.classList.remove('hidden'); };
   img.style.visibility = 'hidden';
+  img.onload = () => { img.style.visibility = 'visible'; };
+  img.onerror = () => { img.classList.add('broken'); img.style.visibility = 'hidden'; };
   img.src = project.images[currentImageIndex];
-  $('#viewer').classList.remove('hidden');
+  // update dots
+  Array.from(dots.children).forEach((d, i)=> d.classList.toggle('active', i===currentImageIndex));
+  // update counter
+  counter.textContent = `${currentImageIndex+1} / ${project.images.length}`;
+}
+
+function prevInline(){
+  if(!project || !project.images || project.images.length===0) return;
+  const next = (currentImageIndex -1 + project.images.length) % project.images.length;
+  showInlineImage(next);
+}
+
+function nextInline(){
+  if(!project || !project.images || project.images.length===0) return;
+  const next = (currentImageIndex +1) % project.images.length;
+  showInlineImage(next);
 }
 
 function closeViewer(){
